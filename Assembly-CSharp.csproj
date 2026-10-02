@@ -67,6 +67,7 @@
     <Compile Include="Assets\Script\Enemy.cs" />
     <Compile Include="Assets\Script\Laser.cs" />
     <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\Powerup.cs" />
     <Compile Include="Assets\Script\SpawnManager.cs" />
     <None Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\2D_Galaxy_Assets\Materials\Shaders\Galaxy.shader" />
     <Reference Include="UnityEngine">
