@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 { 
+    [SerializedField]
+    private Text _restartText;
+    [SerializedField]
+    private Text _gameOverText;
     [SerializeField]
     private Image LivesImage;
     [SerializeField]
@@ -15,6 +19,7 @@ public class UI_Manager : MonoBehaviour
     void Start()
     {
         _scoreText.text = "Score " + 0;
+        _gameOverText.GameObject.SetActive(false);
         
     }
 
@@ -27,5 +32,26 @@ public class UI_Manager : MonoBehaviour
     public void UpdateLives(int currentLives)
     {
       LivesImage.sprite = _livesSprites[currentLives];
+      if(currentLives == 0)
+      {
+       GameOverSequence();
+
+      }
+    }
+    void GameOverSequence()
+    {
+         _gameOverText.GameObject.SetActive(true);
+         _restartText.GameObject.SetActive(true);
+        StartCoroutine(GameOverFlickerRoutine());
+    }
+    IEnumerator GameOverFlickerRoutine()
+    {
+        while(true)
+        {
+            _gameOverText.text = "GAME OVER";
+            yield return new WairForSeconds(0.5f);
+            _gameOverText.text = "";
+            yield return new WairForSeconds(0.5f);  
+        }
     }
 }
