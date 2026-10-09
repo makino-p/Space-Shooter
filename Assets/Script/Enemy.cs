@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
         float randomX = Random.Range(-7f, 7f);
         transform.position = new Vector3(randomX, 7, 0);
         }
+        
     }
 
 
