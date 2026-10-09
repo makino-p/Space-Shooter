@@ -24,11 +24,15 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     private SpawnManager _spawnManager; 
     private float _speedMultiplier = 2.0f;
+    [SerializeField]
+    private int _score; 
+    private UI_Manager _uiManager;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position  = new Vector3(0,0,0);
+        _uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
@@ -101,6 +105,7 @@ public class Player : MonoBehaviour
         }
 
         _lives -= 1;
+        _uiManager.UpdateLives(_lives);
 
         if (_lives < 1)
         {
@@ -137,6 +142,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _isSpeedBoostActive = false;
         _speed /= _speedMultiplier;
+    }
+
+    public void AddScore(int points)
+    {
+           _score += points; 
+           _uiManager.UpdateScore(_score);
     }
 }
 
