@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
-{ 
+{
+    private GameManager _gameManager;
     [SerializedField]
     private Text _restartText;
     [SerializedField]
@@ -20,6 +21,7 @@ public class UI_Manager : MonoBehaviour
     {
         _scoreText.text = "Score " + 0;
         _gameOverText.GameObject.SetActive(false);
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         
     }
 
@@ -40,6 +42,7 @@ public class UI_Manager : MonoBehaviour
     }
     void GameOverSequence()
     {
+        _gameManager.GameOver();
          _gameOverText.GameObject.SetActive(true);
          _restartText.GameObject.SetActive(true);
         StartCoroutine(GameOverFlickerRoutine());

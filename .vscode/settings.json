@@ -1,5 +1,6 @@
 {
     "csharp-dev-tools.solutionViewer.selectedWorkspaceSolutions": [
         "CS201b.sln"
-    ]
+    ],
+    "dotnet.preferCSharpExtension": true
 }
