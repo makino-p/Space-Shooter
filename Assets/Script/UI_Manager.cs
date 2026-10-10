@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
-    private GameManager _gameManager;
-    [SerializedField]
+    [SerializeField]
     private Text _restartText;
-    [SerializedField]
+    private Game_Manager _gameManager;
+    [SerializeField]
     private Text _gameOverText;
     [SerializeField]
     private Image LivesImage;
@@ -20,8 +20,8 @@ public class UI_Manager : MonoBehaviour
     void Start()
     {
         _scoreText.text = "Score " + 0;
-        _gameOverText.GameObject.SetActive(false);
-        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _gameOverText.gameObject.SetActive(false);
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<Game_Manager>();
         
     }
 
@@ -42,9 +42,9 @@ public class UI_Manager : MonoBehaviour
     }
     void GameOverSequence()
     {
-        _gameManager.GameOver();
-         _gameOverText.GameObject.SetActive(true);
-         _restartText.GameObject.SetActive(true);
+         _gameManager.GameOver();
+         _gameOverText.gameObject.SetActive(true);
+         _restartText.gameObject.SetActive(true);
         StartCoroutine(GameOverFlickerRoutine());
     }
     IEnumerator GameOverFlickerRoutine()
@@ -52,9 +52,9 @@ public class UI_Manager : MonoBehaviour
         while(true)
         {
             _gameOverText.text = "GAME OVER";
-            yield return new WairForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
             _gameOverText.text = "";
-            yield return new WairForSeconds(0.5f);  
+            yield return new WaitForSeconds(0.5f);  
         }
     }
 }
