@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +21,7 @@ public class UI_Manager : MonoBehaviour
     {
         _scoreText.text = "Score " + 0;
         _gameOverText.gameObject.SetActive(false);
+        _restartText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<Game_Manager>();
         
     }

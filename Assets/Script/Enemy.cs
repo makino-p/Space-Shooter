@@ -8,10 +8,16 @@ public class Enemy : MonoBehaviour
     private float _speed = 1.5f;
     private Player player;
     private Animator _anim;
+    private AudioSource _audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        _audioSource = GetComponent<AudioSource>();
+        GameObject p = GameObject.Find("Player");
+        if (p != null)
+        {
+            player = p.GetComponent<Player>();
+        }
         _anim = GetComponent<Animator>();
     }
 
@@ -22,8 +28,7 @@ public class Enemy : MonoBehaviour
 
         if (transform.position.y < -5f)
         {
-        float randomX = Random.Range(-7f, 7f);
-        transform.position = new Vector3(randomX, 7, 0);
+        Destroy(this.gameObject);
         }
         
     }
@@ -43,6 +48,8 @@ public class Enemy : MonoBehaviour
             // other.transform.GetComponent<Player>().Damage();
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            GetComponent<Collider2D>().enabled = false;
+            _audioSource.Play();
             Destroy(this.gameObject, 2.8f);
         }
         
@@ -54,6 +61,8 @@ public class Enemy : MonoBehaviour
             }
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
+            GetComponent<Collider2D>().enabled = false;
+            _audioSource.Play();
             Destroy(this.gameObject, 2.8f);
         }
     }

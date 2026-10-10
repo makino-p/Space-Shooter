@@ -29,16 +29,28 @@ public class Player : MonoBehaviour
     private UI_Manager _uiManager;
     [SerializeField]
     private GameObject rightEngine, leftEngine;
+    [SerializeField]
+    private AudioClip _laserSoundClip;
+
+    private AudioSource _audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position  = new Vector3(0,0,0);
+        _audioSource = GetComponent<AudioSource>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UI_Manager>();
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL");
+        }
+        if(_audioSource == null)
+        {
+            Debug.Log("Audio Source of player null");
+        }else
+        {
+            _audioSource.clip = _laserSoundClip;
         }
     }
 
@@ -93,6 +105,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.8f, 0), Quaternion.identity);
         }
+        _audioSource.Play();
     }
     
     public void Damage()
@@ -116,11 +129,16 @@ public class Player : MonoBehaviour
         {
             leftEngine.SetActive(true);
         }
-        _uiManager.UpdateLives(_lives);
-
         if (_lives < 1)
         {
+            _lives = 0;
             _spawnManager.OnPlayerDeath();
+        }
+
+        _uiManager.UpdateLives(_lives);
+
+        if (_lives == 0)
+        {
             Destroy(this.gameObject);
         }
     }
