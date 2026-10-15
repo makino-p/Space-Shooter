@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private bool isShieldActive = false;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
+    private bool _isSpeedShiftActive = false;
 
 
     private float _canFire = -1f;
@@ -22,14 +23,15 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.2f;
     [SerializeField]
     private float _speed = 5.5f;
-    private float _shiftMultiplier = 1.5f;
+    private float _shiftMultiplier = 5.5f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager; 
-
+    [SerializeField]
     private float _speedMultiplier = 2.0f;
+    private float currentSpeed;
     [SerializeField]
     private int _score; 
     private UI_Manager _uiManager;
@@ -67,47 +69,38 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
-        {
-        FireLaser(); 
-        }
+    if (Input.GetKeyDown(KeyCode.LeftShift))
+    {
+        SpeedShiftActive();
+    }
+    if (Input.GetKeyUp(KeyCode.LeftShift))
+    {
+        SpeedShiftDeactive();
+    }
+
+    if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+    {
+        FireLaser();
+    }
     }
     void CalculateMovement()
+    { 
+    float horizontalInput = Input.GetAxis("Horizontal");
+    float verticalInput = Input.GetAxis("Vertical");
+    Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
+    transform.Translate(_speed * Time.deltaTime * direction);
+
+    transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
+
+    if (transform.position.x > 11)
     {
-        // Mathf.Clamp(transform.position.x, -11, 0)
-
-
-        float currentSpeed = _speed;
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-         currentSpeed *= _shiftMultiplier;
-        }
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(currentSpeed * Time.deltaTime * direction);
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);     
-        
-
-        if (transform.position.x > 11)
-        {
-            transform.position = new Vector3(-11, transform.position.y, 0);
-        }
-        else if (transform.position.x < -11)
-        {
-            transform.position = new Vector3(11, transform.position.y, 0);
-        }
-        
-
-        
-
-        // Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        
-
-
-        // transform.Translate(Vector3.left  * horizontalInput * verticalInput *_speed * Time.deltaTime);
-        
+        transform.position = new Vector3(-11, transform.position.y, 0);
+    }
+    else if (transform.position.x < -11)
+    {
+        transform.position = new Vector3(11, transform.position.y, 0);
+    }
     }
 
 
@@ -160,7 +153,7 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
+    
     public void TripleShotActive()
     {
         _isTripleShotActive = true;
@@ -201,6 +194,29 @@ public void SpeedBoostActive()
         _score += points; 
         _uiManager.UpdateScore(_score);
     }
+
+
+public void SpeedShiftActive()
+{
+    if (_isSpeedShiftActive == true)
+    {
+        return;
+    }
+
+    _isSpeedShiftActive = true;
+    _speed *= _shiftMultiplier;
+}
+
+public void SpeedShiftDeactive()
+{
+    if (_isSpeedShiftActive == false)
+    {
+        return;
+    }
+
+    _isSpeedShiftActive = false;
+    _speed /= _shiftMultiplier;
+}
 }
 
 
