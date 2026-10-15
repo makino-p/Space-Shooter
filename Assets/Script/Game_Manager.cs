@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Game_Manager : MonoBehaviour
 {
     [SerializeField]
-     private bool _isGameOver;
+    private bool _isGameOver;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +18,11 @@ public class Game_Manager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
         {
-              SceneManager.LoadScene(1);
+            SceneManager.LoadScene(1);
         }
     }
     public void GameOver()
-   {
+    {
     _isGameOver = true;
-   }
+    }
 }

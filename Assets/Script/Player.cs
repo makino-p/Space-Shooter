@@ -9,26 +9,34 @@ public class Player : MonoBehaviour
     private GameObject _tripleShotPrefab;
     [SerializeField]
     private GameObject _shieldVisualizer;
+
+
     [SerializeField]
     private bool isShieldActive = false;
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
+
+
     private float _canFire = -1f;
     [SerializeField]
     private float _fireRate = 0.2f;
     [SerializeField]
     private float _speed = 5.5f;
+    private float _shiftMultiplier = 1.5f;
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager; 
+
     private float _speedMultiplier = 2.0f;
     [SerializeField]
     private int _score; 
     private UI_Manager _uiManager;
+
     [SerializeField]
     private GameObject rightEngine, leftEngine;
+
     [SerializeField]
     private AudioClip _laserSoundClip;
 
@@ -68,8 +76,20 @@ public class Player : MonoBehaviour
     {
         // Mathf.Clamp(transform.position.x, -11, 0)
 
+
+        float currentSpeed = _speed;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+         currentSpeed *= _shiftMultiplier;
+        }
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+        transform.Translate(currentSpeed * Time.deltaTime * direction);
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);     
         
+
         if (transform.position.x > 11)
         {
             transform.position = new Vector3(-11, transform.position.y, 0);
@@ -79,13 +99,11 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(11, transform.position.y, 0);
         }
         
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+
         
 
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+        // Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
         
-        transform.Translate(_speed  * Time.deltaTime * direction);
 
 
         // transform.Translate(Vector3.left  * horizontalInput * verticalInput *_speed * Time.deltaTime);
@@ -160,12 +178,17 @@ public class Player : MonoBehaviour
         isShieldActive = true;
         _shieldVisualizer.SetActive(true);
     }
-    public void SpeedBoostActive()
+public void SpeedBoostActive()
+{
+    if (_isSpeedBoostActive == true)
     {
-        _isSpeedBoostActive = true;
-        _speed *= _speedMultiplier;
-        StartCoroutine(SpeedBoostPowerDownRoutine());
+        return;
     }
+
+    _isSpeedBoostActive = true;
+    _speed *= _speedMultiplier;
+    StartCoroutine(SpeedBoostPowerDownRoutine());
+}
     IEnumerator SpeedBoostPowerDownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
@@ -175,8 +198,8 @@ public class Player : MonoBehaviour
 
     public void AddScore(int points)
     {
-           _score += points; 
-           _uiManager.UpdateScore(_score);
+        _score += points; 
+        _uiManager.UpdateScore(_score);
     }
 }
 

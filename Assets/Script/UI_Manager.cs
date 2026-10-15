@@ -34,18 +34,18 @@ public class UI_Manager : MonoBehaviour
 
     public void UpdateLives(int currentLives)
     {
-      LivesImage.sprite = _livesSprites[currentLives];
-      if(currentLives == 0)
-      {
-       GameOverSequence();
+    LivesImage.sprite = _livesSprites[currentLives];
+    if(currentLives == 0)
+    {
+    GameOverSequence();
 
-      }
+    }
     }
     void GameOverSequence()
     {
-         _gameManager.GameOver();
-         _gameOverText.gameObject.SetActive(true);
-         _restartText.gameObject.SetActive(true);
+        _gameManager.GameOver();
+        _gameOverText.gameObject.SetActive(true);
+        _restartText.gameObject.SetActive(true);
         StartCoroutine(GameOverFlickerRoutine());
     }
     IEnumerator GameOverFlickerRoutine()
