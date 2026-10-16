@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
             if (player != null)
             {
                 player.Damage();
-            }
+            } 
             // other.transform.GetComponent<Player>().Damage();
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;

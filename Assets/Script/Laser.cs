@@ -26,7 +26,7 @@ public class Laser : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-}
+} 
 
 
 

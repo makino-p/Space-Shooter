@@ -23,6 +23,6 @@ public class Game_Manager : MonoBehaviour
     }
     public void GameOver()
     {
-    _isGameOver = true;
+    _isGameOver = true; 
     }
 }

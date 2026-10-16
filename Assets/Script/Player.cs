@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
-    private int _lives = 3;
+    private int _lives = 3; 
     private SpawnManager _spawnManager; 
     [SerializeField]
     private float _speedMultiplier = 2.0f;

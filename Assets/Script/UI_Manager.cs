@@ -25,7 +25,7 @@ public class UI_Manager : MonoBehaviour
         _gameManager = GameObject.Find("Game_Manager").GetComponent<Game_Manager>();
         
     }
-
+ 
     // Update is called once per frame
     public void  UpdateScore(int playerScore) 
     {
