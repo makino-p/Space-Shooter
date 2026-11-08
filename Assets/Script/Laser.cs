@@ -16,17 +16,16 @@ public class Laser : MonoBehaviour
     {
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-        if (transform.position.y  > 8f)
+        if (transform.position.y > 8f || transform.position.y < -6f || Mathf.Abs(transform.position.x) > 12f)
         {
-
-            if (transform.parent != null)
+          if (transform.parent != null && transform.parent.childCount <= 1)
             {
-                Destroy(transform.parent.gameObject);
+               Destroy(transform.parent.gameObject);
             }
-            Destroy(this.gameObject);
-        }
+          Destroy(this.gameObject); 
+        } 
     }
-} 
+}
 
 
 

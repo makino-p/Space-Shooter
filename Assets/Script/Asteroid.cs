@@ -12,7 +12,20 @@ public class Asteroid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        GameObject spawnManagerObject = GameObject.Find("SpawnManager");
+        if (spawnManagerObject != null)
+        {
+            _spawnManager = spawnManagerObject.GetComponent<SpawnManager>();
+        }
+
+        if (_spawnManager == null)
+        {
+            Debug.LogError("Asteroid: SpawnManager not found in the scene.");
+        }
+        if (_explosionPrefab == null)
+        {
+            Debug.LogError("Asteroid: Explosion Prefab is not assigned in the Inspector.");
+        }
     }
 
     // Update is called once per frame
@@ -22,15 +35,23 @@ public class Asteroid : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
-    { 
-        
-        if (other.tag == "Laser")
+    {
+        if (other.CompareTag("Laser"))
         {
-            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            // Сначала уничтожаем лазер и астероид, чтобы ошибка ниже
+            // не позволила лазеру "пройти сквозь" астероид.
             Destroy(other.gameObject);
-            _spawnManager.StartSpawning();
             Destroy(this.gameObject);
 
+            if (_explosionPrefab != null)
+            {
+                Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
+            }
+
+            if (_spawnManager != null)
+            {
+                _spawnManager.StartSpawning();
+            }
         }
     }
 }
